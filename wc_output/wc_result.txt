@@ -1,0 +1,6 @@
+bar	1
+brave	1
+foo	1
+hello	2
+new	1
+world	2
