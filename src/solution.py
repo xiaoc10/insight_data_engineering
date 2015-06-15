@@ -56,7 +56,6 @@ class stream_median:
 
 class word_counter:
     def __init__(self, src_fullfiles):
-        #self.list_txtfiles(src_dir)
         self.fullfiles = src_fullfiles
 
     def count_word(self):
@@ -81,9 +80,8 @@ class insight_data_engineering_solver:
         self.dest_file_q2 = dest_file_q2
         self.txtfiles = self.list_txtfiles(src_dir)
         self.fullfiles = [os.path.join(self.src_dir, txtfile) for txtfile in self.txtfiles ]
-        #print(self.fullfiles)
 
-    def list_txtfiles(self, src_dir):
+    def list_txtfiles(self, src_dir): #get all txt files in a directorys
         txtfiles = []
         for file in os.listdir(src_dir):
             if fnmatch.fnmatch(file, '*.txt'):
@@ -102,18 +100,16 @@ class insight_data_engineering_solver:
 
     def running_median(self):
         median_calculator = stream_median()
-        #destfile = os.path.join(self.src_dest, "med_result.txt")
         destfile = self.dest_file_q2
         with open(destfile, "w") as output_stream:
             for fullfile in self.fullfiles: #per file
                 with open(fullfile, "r") as file_stream:
                     for line in file_stream: #per line
                         line1 = re.sub(r'[^a-zA-Z0-9\s]+', "", line).lower().strip()
-                        word_size = len(line1.split()) #eliminate empty line
+                        word_size = len(line1.split())
                         median_calculator.insert(word_size)
                         median = median_calculator.get_median()
                         output_stream.write("{0}\n".format(int(median*10)/10.0))
-
 
 def solver(src_dir, dest_file_q1, dest_file_q2):
     ide_solver = insight_data_engineering_solver(src_dir, dest_file_q1, dest_file_q2)
